@@ -20,6 +20,7 @@ public class PostController {
 
 
     private  List<Post> listOfPosts = new ArrayList<>();
+    private List<Post> postByProvider = new ArrayList<>();
 
     @PostMapping("/post")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
@@ -38,10 +39,35 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posterList, HttpStatus.OK);
     }
 
-    @GetMapping("/providers-post")
-    public ResponseEntity<List<Post>> getByProvider(int providerId){
+    @GetMapping("/filter")
+    public ResponseEntity<List<Post>> getByProvider(@RequestParam int providerId){
         List<Post> posts= listOfPosts.stream().filter(post-> post.getProviderId() == providerId)
                                                                 .collect(Collectors.toList());
+        postByProvider.add(posts.toList);
         return new ResponseEntity<List<Post>>(posts, HttpStatus.ACCEPTED);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Object>> filterProviderData(@RequestParam String name, @RequestParam int age, @RequestParam  String timestamp) {
+        List<Object> filteredPost = postByProvider.stream().filter(post ->
+                                                                 post.getFields().getAge() == age
+                                                                         &&
+                                                                         post.getFields().getTimestamp().contains(timestamp) &&
+                                                                         post.getFields().getName().startsWith(name)
+                                                            ).collect(Collectors.toList());
+
+        return new ResponseEntity<List<Object>>(filteredPost, HttpStatus.ACCEPTED);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
