@@ -47,8 +47,8 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posts, HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/filter/{providerId}", method = RequestMethod.GET)
-    public ResponseEntity<?>  getProviderData(@PathVariable("providerId") int providerId,
+    @GetMapping("/filter/{provider_Id}")
+    public ResponseEntity<?>  getProviderData(@PathVariable("provider_Id") int providerId,
                                                 @RequestParam("name") String name,
                                               @RequestParam("age") String age,
                                               @RequestParam("timestamp") String timestamp) {
@@ -73,7 +73,7 @@ public class PostController {
     }
 
     public String[] preprocessesField(String param) {
-        return param.split(";");
+        return param.split(":");
     }
 
     public List<String> rules(String condition, String value, String field) {
@@ -82,27 +82,22 @@ public class PostController {
         switch(condition) {
             case "eqc":
                  //operation
-                 String eqc = listOfPosts.stream().filter(post ->
-                                                    post.getFields().getName().equalsIgnoreCase(value));
+                String eqc ="";
+                  listOfPosts.stream().filter(post ->
+                                                    post.getFields().getName().equalsIgnoreCase(value)).collect(Collectors.toList());
+
                  result.add(eqc);
                 break;
 
             case "eq":
                     //operation
-                   String eq= listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() > Integer.valueOf(field));
-                result.add(eq);
                 break;
 //            case "gt":
 //                //operation
-//               String gt= listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() ==field)
-//                result.add(gt);
 //                break;
 //
 //            case "lt":
 //                //operation
-//                String lt = listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() ==field)
-//                result.add(lt);
-//                break;
         }
 
         return result;
