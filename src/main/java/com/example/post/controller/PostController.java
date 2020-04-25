@@ -82,26 +82,27 @@ public class PostController {
         switch(condition) {
             case "eqc":
                  //operation
-                 String resulting = listOfPosts.stream().filter(post ->
+                 String eqc = listOfPosts.stream().filter(post ->
                                                     post.getFields().getName().equalsIgnoreCase(value));
-                 result.add(resulting);
+                 result.add(eqc);
                 break;
 
             case "eq":
                     //operation
-                    listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() ==field)
+                   String eq= listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() > Integer.valueOf(field));
+                result.add(eq);
                 break;
-            case "gt":
-                //operation
-                listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() ==field)
-
-                break;
-
-            case "lt":
-                //operation
-                listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() ==field)
-
-                break;
+//            case "gt":
+//                //operation
+//               String gt= listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() ==field)
+//                result.add(gt);
+//                break;
+//
+//            case "lt":
+//                //operation
+//                String lt = listOfPosts.stream().filter(post-> post.getFields().getTimestamp() == value && post.getFields().getAge() ==field)
+//                result.add(lt);
+//                break;
         }
 
         return result;
